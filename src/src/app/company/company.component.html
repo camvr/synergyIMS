@@ -1,0 +1,340 @@
+<!-- Page Content -->
+<meta name='viewport' content='width=device-width' />
+<div class='wrapper'>
+  <h1>Company Info</h1>
+  <div class='panel panel-info'>
+
+    <div class='panel-heading'>
+      <a href='#companyName' data-toggle='collapse'>{{companyInfo.company_name}}
+        <i class='fa fa-wrench' aria-hidden='true'></i>
+      </a>
+
+      <div id='companyName' class='collapse'>
+        <form class='form-inline' (ngSubmit)='editCompany()' #ngUpdateForm='ngForm'>
+          <div>
+            <label>
+              <label for='companyName'>Company Name:</label>
+              <input type='text' [(ngModel)]='editInfo.company_name' name='uName' class='form-control' id='uName'>
+            </label>
+          </div>
+          <div>
+            <label>
+              <button type='submit' class='btn btn-primary'>Update</button>
+            </label>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+    <div class='panel-body'>
+      <div class='col-sm-12'>
+        <a href='#address' data-toggle='collapse'>{{companyInfo.address}}
+          <i class='fa fa-wrench' aria-hidden='true'></i>
+        </a>
+
+        <div id='address' class='collapse'>
+          <form class='form-inline' (ngSubmit)='editCompany()' #ngUpdateForm='ngForm'>
+            <div>
+              <label>
+                <label for='address'>Address:</label>
+                <input type='text' [(ngModel)]='editInfo.address' name='uAddress' class='form-control' id='uAddress'>
+              </label>
+            </div>
+            <div>
+              <label>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <div class='col-sm-12'>
+        <a href='#phone' data-toggle='collapse'>{{companyInfo.phone}}
+          <i class='fa fa-wrench' aria-hidden='true'></i>
+        </a>
+
+        <div id='phone' class='collapse'>
+          <form class='form-inline' (ngSubmit)='editCompany()' #ngUpdateForm='ngForm'>
+            <div>
+              <label>
+                <label for='phone'>Phone Number:</label>
+                <input type='text' [(ngModel)]='editInfo.phone' name='uPhone' class='form-control' id='uPhone'>
+              </label>
+            </div>
+            <div>
+              <label>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div class='col-sm-12'>
+        <button class='btn btn-danger btn-md' data-toggle='modal' data-target='#deleteModal'>Delete Company</button>
+      </div>
+
+    </div>
+
+  </div>
+  <div class='col-sm-12' *ngIf='permissions?.perm'>
+    <div class='well'>
+      <h4>Brand</h4>
+      <p>Create- Admin:
+        <a href='javascript:void(0)'>
+          <span class='perm' (click)='permissions.perm.brand.create.admin = !permissions.perm.brand.create.admin; editPermissions()'>{{permissions.perm.brand.create.admin}}</span>
+        </a>
+        User:
+        <a href='javascript:void(0)'>
+          <span class='perm' (click)='permissions.perm.brand.create.user = !permissions.perm.brand.create.user; editPermissions()'>{{permissions.perm.brand.create.user}} </span>
+        </a>
+      </p>
+
+      <p>read- Admin:
+        <a href='javascript:void(0)'>
+          <span class='perm' (click)='permissions.perm.brand.read.admin = !permissions.perm.brand.read.admin; editPermissions()'>{{permissions.perm.brand.read.admin}}</span>
+        </a>
+        User:
+        <a href='javascript:void(0)'>
+          <span class='perm' (click)='permissions.perm.brand.read.user = !permissions.perm.brand.read.user; editPermissions()'>{{permissions.perm.brand.read.user}}</span>
+        </a>
+      </p>
+
+      <p>update- Admin:
+        <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.brand.update.admin = !permissions.perm.brand.update.admin; editPermissions()'>{{permissions.perm.brand.update.admin}}</span>
+        </a>
+        User:
+        <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.brand.update.user = !permissions.perm.brand.update.user; editPermissions()'>{{permissions.perm.brand.update.user}}</span>
+        </a>
+      </p>
+
+      <p>delete- Admin:
+        <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.brand.delete.admin = !permissions.perm.brand.delete.admin; editPermissions()'>{{permissions.perm.brand.delete.admin}}</span>
+        </a>
+        User:
+        <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.brand.delete.user = !permissions.perm.brand.delete.user; editPermissions()'>{{permissions.perm.brand.delete.user}}</span>
+        </a>
+      </p>
+
+    </div>
+    <div class='well'>
+      <h4>Category</h4>
+      <p>Create- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.category.create.admin = !permissions.perm.category.create.admin; editPermissions()'>{{permissions.perm.category.create.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.category.create.user = !permissions.perm.category.create.user; editPermissions()'>{{permissions.perm.category.create.user}} </span>
+          </a>
+        </p>
+  
+        <p>read- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.category.read.admin = !permissions.perm.category.read.admin; editPermissions()'>{{permissions.perm.category.read.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.category.read.user = !permissions.perm.category.read.user; editPermissions()'>{{permissions.perm.category.read.user}}</span>
+          </a>
+        </p>
+  
+        <p>update- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.category.update.admin = !permissions.perm.category.update.admin; editPermissions()'>{{permissions.perm.category.update.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.category.update.user = !permissions.perm.category.update.user; editPermissions()'>{{permissions.perm.category.update.user}}</span>
+          </a>
+        </p>
+  
+        <p>delete- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.category.delete.admin = !permissions.perm.category.delete.admin; editPermissions()'>{{permissions.perm.category.delete.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.category.delete.user = !permissions.perm.category.delete.user; editPermissions()'>{{permissions.perm.category.delete.user}}</span>
+          </a>
+        </p>
+
+    </div>
+    <div class='well'>
+      <h4>Product</h4>
+      <p>Create- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.product.create.admin = !permissions.perm.product.create.admin; editPermissions()'>{{permissions.perm.product.create.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.product.create.user = !permissions.perm.product.create.user; editPermissions()'>{{permissions.perm.product.create.user}} </span>
+          </a>
+        </p>
+  
+        <p>read- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.product.read.admin = !permissions.perm.product.read.admin; editPermissions()'>{{permissions.perm.product.read.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.product.read.user = !permissions.perm.product.read.user; editPermissions()'>{{permissions.perm.product.read.user}}</span>
+          </a>
+        </p>
+  
+        <p>update- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.product.update.admin = !permissions.perm.product.update.admin; editPermissions()'>{{permissions.perm.product.update.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.product.update.user = !permissions.perm.product.update.user; editPermissions()'>{{permissions.perm.product.update.user}}</span>
+          </a>
+        </p>
+  
+        <p>delete- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.product.delete.admin = !permissions.perm.product.delete.admin; editPermissions()'>{{permissions.perm.product.delete.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.product.delete.user = !permissions.perm.product.delete.user; editPermissions()'>{{permissions.perm.product.delete.user}}</span>
+          </a>
+        </p>
+
+    </div>
+    <div class='well'>
+      <h4>Warehouse</h4>
+      <p>Create- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.warehouse.create.admin = !permissions.perm.warehouse.create.admin; editPermissions()'>{{permissions.perm.warehouse.create.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.warehouse.create.user = !permissions.perm.warehouse.create.user; editPermissions()'>{{permissions.perm.warehouse.create.user}} </span>
+          </a>
+        </p>
+  
+        <p>read- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.warehouse.read.admin = !permissions.perm.warehouse.read.admin; editPermissions()'>{{permissions.perm.warehouse.read.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.warehouse.read.user = !permissions.perm.warehouse.read.user; editPermissions()'>{{permissions.perm.warehouse.read.user}}</span>
+          </a>
+        </p>
+  
+        <p>update- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.warehouse.update.admin = !permissions.perm.warehouse.update.admin; editPermissions()'>{{permissions.perm.warehouse.update.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.warehouse.update.user = !permissions.perm.warehouse.update.user; editPermissions()'>{{permissions.perm.warehouse.update.user}}</span>
+          </a>
+        </p>
+  
+        <p>delete- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.warehouse.delete.admin = !permissions.perm.warehouse.delete.admin; editPermissions()'>{{permissions.perm.warehouse.delete.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.warehouse.delete.user = !permissions.perm.warehouse.delete.user; editPermissions()'>{{permissions.perm.warehouse.delete.user}}</span>
+          </a>
+        </p>
+
+    </div>
+    <div class='well'>
+      <h4>User</h4>
+      <p>Create- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.user.create.admin = !permissions.perm.user.create.admin; editPermissions()'>{{permissions.perm.user.create.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.user.create.user = !permissions.perm.user.create.user; editPermissions()'>{{permissions.perm.user.create.user}} </span>
+          </a>
+        </p>
+  
+        <p>read- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.user.read.admin = !permissions.perm.user.read.admin; editPermissions()'>{{permissions.perm.user.read.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.user.read.user = !permissions.perm.user.read.user; editPermissions()'>{{permissions.perm.user.read.user}}</span>
+          </a>
+        </p>
+  
+        <p>update- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.user.update.admin = !permissions.perm.user.update.admin; editPermissions()'>{{permissions.perm.user.update.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.user.update.user = !permissions.perm.user.update.user; editPermissions()'>{{permissions.perm.user.update.user}}</span>
+          </a>
+        </p>
+  
+        <p>delete- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.user.delete.admin = !permissions.perm.user.delete.admin; editPermissions()'>{{permissions.perm.user.delete.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.user.delete.user = !permissions.perm.user.delete.user; editPermissions()'>{{permissions.perm.user.delete.user}}</span>
+          </a>
+        </p>
+
+    </div>
+    <div class='well'>
+      <h4>Company</h4>
+      <p>read- Admin:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.company.read.admin = !permissions.perm.company.read.admin; editPermissions()'>{{permissions.perm.company.read.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+            <span class='perm' (click)='permissions.perm.company.read.user = !permissions.perm.company.read.user; editPermissions()'>{{permissions.perm.company.read.user}}</span>
+          </a>
+        </p>
+  
+        <p>update- Admin:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.company.update.admin = !permissions.perm.company.update.admin; editPermissions()'>{{permissions.perm.company.update.admin}}</span>
+          </a>
+          User:
+          <a href='javascript:void(0)'>
+              <span class='perm' (click)='permissions.perm.company.update.user = !permissions.perm.company.update.user; editPermissions()'>{{permissions.perm.company.update.user}}</span>
+          </a>
+        </p>
+
+    </div>
+  </div>
+
+  <div class='modal fade' id='deleteModal' role='dialog'>
+    <div class='modal-dialog modal-sm'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <button type='button' class='close' data-dismiss='modal'>&times;</button>
+          <h4 class='modal-title'>Would you like to delete {{companyInfo.company_name}}</h4>
+        </div>
+        <div class='modal-body'>
+          <p>Are you sure you would like to delete this company?</p>
+          <button class='btn btn-danger' type='button' (click)='clickConfirm(companyInfo.company_name)' data-dismiss='modal'>Delete {{companyInfo.company_name}}</button>
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

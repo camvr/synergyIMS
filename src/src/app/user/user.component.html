@@ -1,0 +1,200 @@
+<!-- Page Content -->
+<meta name='viewport' content='width=device-width' />
+<div class='wrapper'>
+  <h1>Users</h1>
+
+  <div class='rows'>
+    <div *ngFor='let user of users' class='Users'>
+      <div class='col-sm-12'>
+        <div class='panel panel-info'>
+          <div class='labels'>
+            <div class='panel-heading' *ngIf= 'user.account_type=="owner"' style='background-color: tomato;'></div>
+            <div class='panel-heading' *ngIf= 'user.account_type=="admin"' style='background-color: rgb(71, 114, 255);'></div>
+            <div class='panel-heading' *ngIf= 'user.account_type=="user"' style='background-color: rgb(175, 255, 71);'></div>
+          </div>
+          <div class='panel-body'>
+            <div class='media-left'>
+              <div *ngIf= 'user.account_type=="owner"' class='col-lg-10 col-lg-offset-1'>
+                <i class='fa fa-user-secret fa-5x' style='padding-top: 2px;' aria-hidden='true'></i>
+              </div>
+              <div *ngIf= 'user.account_type=="admin"' class='col-lg-10 col-lg-offset-1'>
+                  <i class='fa fa-user-plus fa-5x' style='padding-top: 2px;' aria-hidden='true'></i>
+              </div>
+              <div *ngIf= 'user.account_type=="user"' class='col-lg-10 col-lg-offset-1'>
+                  <i class='fa fa-user fa-5x' style='padding-top: 2px;' aria-hidden='true'></i>
+              </div>
+            </div>
+
+            <div class='media-body'>
+              <p class='col-sm-12'>
+                <b>First Name:</b> {{user.first_name}}</p>
+              <p class='col-sm-12'>
+                <b>Last Name:</b> {{user.last_name}}</p>
+              <p class='col-sm-12'>
+                <b>Email:</b> {{user.email}}</p>
+              <p class='col-sm-12'>
+                <b>Account Type:</b> {{user.account_type}}</p>
+            </div>
+            <button *ngIf='user.account_type!="owner"' class='btn btn-info' (click)='getUser(user.id)' data-toggle='modal' data-target='#editModal'>
+              <small>Edit</small>
+            </button>
+            <button *ngIf='user.account_type!="owner"' class='btn btn-danger' id='firstDanger' (click)='getUser(user.id)' data-toggle='modal' data-target='#deleteModal'>Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div align='center' class='col-sm-12'>
+      <div class='addButton'>
+        <button type='button' class='btn btn-primary btn-md' data-toggle='modal' data-target='#insertModal'>Add User</button>
+      </div>
+      <ul *ngIf='pager.pages && pager.pages.length' class='pagination'>
+        <li [ngClass]='{disabled:pager.currentPage === 1}'>
+          <a href='javascript:void(0)' (click)='setPage(1);getUsers()'>First</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === 1}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.currentPage - 1);getUsers()'>Previous</a>
+        </li>
+        <li *ngFor='let page of pager.pages' [ngClass]='{active:pager.currentPage === page}'>
+          <a href='javascript:void(0)' (click)='setPage(page);getUsers();'>{{page}}</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.currentPage + 1);getUsers()'>Next</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.totalPages);getUsers()'>Last</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- INSERT USER MODAL -->
+    <div class='modal fade' id='insertModal' role='dialog'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Create New User</h4>
+          <div class='modal-body'>
+            <label for='accountType'>
+              <small>User Account:</small>
+            </label>
+            <input type='radio' class='form-control' id='radio-1' [(ngModel)]=newUser.account_type value='user' name='account_type'>
+            <br>
+            <label for='accountType'>
+                <small>Admin Account:</small>
+              </label>
+            <input type='radio' class='form-control' id='radio-1' [(ngModel)]=newUser.account_type value='admin' name='account_type'>
+            <br>
+            <input type='text' class='form-control' [(ngModel)]=newUser.first_name name='first_name' placeholder='First Name'>
+            <br>
+            <input type='text' class='form-control' [(ngModel)]=newUser.last_name name='last_name' placeholder='Last Name'>
+            <br>
+            <input type='email' class='form-control' [(ngModel)]=newUser.email name='email' placeholder='Email'>
+            <br>
+            <input type='tel' class='form-control' [(ngModel)]=newUser.phone name='phone' placeholder='Phone Number'>
+            <br>
+            <input type='tel' class='form-control' [(ngModel)]=newUser.employee_num name='employee_num' placeholder='Employee Number'>
+            <br>
+            <input type='password' class='form-control' [(ngModel)]=newUser.password name='password' placeholder='Password'>
+            <br>
+          </div>
+          <div class='modal-footer'>
+            <button class='btn btn-primary .btn-md' type='button' (click)='createUser()'>Add</button>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- EDIT USER MODAL -->
+    <div class='modal fade' id='editModal' role='dialog'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Editing {{view_user.first_name}}</h4>
+          </div>
+          <div class='modal-body'>
+            <label for='updateform'>Editing {{view_user.first_name}}</label>
+            <form (ngSubmit)='editUser(view_user.id)' #newUpdateForm='ngForm'>
+
+              <label for='accountType'>
+                <small>User Account:</small>
+              </label>
+              <input type='radio' class='form-control' id='radio-1' [(ngModel)]=view_user.account_type value='user' name='account_type'>
+              <br>
+
+              <label for='accountType'>
+                <small>Admin Account:</small>
+              </label>
+              <input type='radio' class='form-control' id='radio-1' [(ngModel)]=view_user.account_type value='admin' name='account_type'>
+              <br>
+
+
+              <label for='firstName'>
+                <small>First Name:</small>
+              </label>
+              <input type='text' class='form-control' [(ngModel)]=view_user.first_name name='first_name' placeholder='First Name'>
+              <br>
+
+
+              <label for='lastName'>
+                <small>Last Name:</small>
+              </label>
+              <input type='text' class='form-control' [(ngModel)]=view_user.last_name name='last_name' placeholder='Last Name'>
+              <br>
+
+              <label for='email'>
+                  <small>Email:</small>
+                </label>
+                <input type='text' class='form-control' [(ngModel)]=view_user.email name='email' placeholder='Email'>
+                <br>
+
+              <label for='userPhone'>
+                <small>Phone:</small>
+              </label>
+              <div>
+                <input class='form-control' type='tel' [(ngModel)]=view_user.phone name='phone' placeholder='Phone Number'>
+              </div>
+              <br>
+              <label for='empNum'>
+                <small>Employee Number:</small>
+              </label>
+              <div>
+                <input class='form-control' type='tel' [(ngModel)]=view_user.employee_num name='employee_num' placeholder='Employee Number'>
+              </div>
+              <br>
+              <button type='submit' class='btn btn-success'>Update {{view_user.first_name}}</button>
+            </form>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELETE USER MODAL -->
+    <div class='modal fade' id='deleteModal' role='dialog'>
+      <div class='modal-dialog modal-sm'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Would you like to delete {{view_user.first_name}}</h4>
+          </div>
+          <div class='modal-body'>
+            <p>Are you sure you would like to delete this user?</p>
+          </div>
+          <div class='modal-footer'>
+            <button class='btn btn-danger' type='button' (click)='deleteUser(view_user.id)' data-dismiss='modal'>Delete</button>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

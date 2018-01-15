@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": "google",
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "rules": {
+    "new-cap": "off",
+    "max-len": "off",
+    "comma-dangle": "off"
+  }
+}

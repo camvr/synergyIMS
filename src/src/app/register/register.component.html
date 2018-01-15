@@ -1,0 +1,134 @@
+<div class='container'>
+  <div class='hero-panel'>
+    <h1>Synergy Inventory Management System</h1>
+  </div>
+
+  <div class='panel panel-default'>
+    <div class='panel-heading'>Register Account</div>
+    <div class='panel-body'>
+      <form id='login-form' (ngSubmit)='onRegister(company_name, address, first_name, last_name, email, phone, employee_num, passwd,phone)'
+        #regForm='ngForm'>
+        <div class='form-group required'>
+          <label for='email'>Email address:</label>
+          <input type='email' [(ngModel)]=email name='email' class='form-control' id='email' placeholder='email address' #emailRef='ngModel'
+            ngModel required pattern='^(([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+)?$'>
+          <div *ngIf='emailRef.errors && (emailRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!emailRef.errors.required'>
+              You must use a valid email address
+            </div>
+            <div [hidden]='!emailRef.errors.pattern'>
+              You must use a valid email address
+            </div>
+          </div>
+        </div>
+        <div class='form-group required'>
+          <label for='passwd'>Password:</label>
+          <input type='password' [(ngModel)]=passwd name='passwd' class='form-control' id='passwd' placeholder='password' #passRef='ngModel'
+            ngModel required>
+          <div *ngIf='passRef.errors && (passRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!passRef.errors.required'>
+              Please enter your password.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='company_name'>Company Name:</label>
+          <input type='text' [(ngModel)]=company_name name='company_name' class='form-control' id='company_name' placeholder='company name'
+            #companyRef='ngModel' ngModel required>
+          <div *ngIf='companyRef.errors && (companyRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!companyRef.errors.required'>
+              Please enter your company name.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='address'>Company Address:</label>
+          <input type='text' [(ngModel)]=address name='address' class='form-control' id='address' placeholder='company address' #addressRef='ngModel'
+            ngModel required>
+          <div *ngIf='addressRef.errors && (addressRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!addressRef.errors.required'>
+              Please enter your company address.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='first_name'>First Name:</label>
+          <input type='text' [(ngModel)]=first_name name='first_name' class='form-control' id='first_name' placeholder='first name'
+            #firstRef='ngModel' ngModel required>
+          <div *ngIf='firstRef.errors && (firstRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!firstRef.errors.required'>
+              Please enter your first name.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='last_name'>Last Name:</label>
+          <input type='text' [(ngModel)]=last_name name='last_name' class='form-control' id='last_name' placeholder='last name' #lastRef='ngModel'
+            ngModel required>
+          <div *ngIf='lastRef.errors && (lastRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!lastRef.errors.required'>
+              Please enter your last name.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='company_phone'>Company Phone Number:</label>
+          <input type='tel' [(ngModel)]=company_phone name='company_phone' class='form-control' id='company_phone' placeholder='company phone number'
+            #cNumRef='ngModel' ngModel maxlength='11' pattern='^[0-9()\-+\s]+$' required>
+          <div *ngIf='cNumRef.errors && (cNumRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!cNumRef.errors.required'>
+              Please enter your company phone number.
+            </div>
+            <div [hidden]='!cNumRef.errors.pattern'>
+              Numbers only, no special characters!
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='phone'>Phone Number:</label>
+          <input type='tel' [(ngModel)]=phone name='phone' class='form-control' id='phone' placeholder='phone number' #pNumRef='ngModel'
+            ngModel maxlength='11' pattern='^[0-9()\-+\s]+$' required>
+          <div *ngIf='pNumRef.errors && (pNumRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!pNumRef.errors.required'>
+              Please enter your phone number.
+            </div>
+            <div [hidden]='!pNumRef.errors.pattern'>
+              Numbers only, no special characters!
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group required'>
+          <label for='employee_num'>Employee Number:</label>
+          <input type='tel' [(ngModel)]=employee_num name='employee_num' id='employee_num' class='form-control' placeholder='employee number'
+            #eNumRef='ngModel' ngModel maxlength='20' pattern='^[0-9()\-+\s]+$' required>
+          <div *ngIf='eNumRef.errors && (eNumRef.dirty)' class='alert alert-danger' style='padding: 2px'>
+            <div [hidden]='!eNumRef.errors.required'>
+              Please enter your employee number.
+            </div>
+            <div [hidden]='!eNumRef.errors.pattern'>
+              Numbers only, no special characters!
+            </div>
+          </div>
+        </div>
+
+    <div class='container-full'>
+      <button type='submit' class='btn btn-primary align-left' [disabled]='!regForm.form.valid'>Signup</button>
+      <p class='align-right'>Already have a account?
+        <a routerLink='../login' routerLinkActive='active'>Login!</a>
+      </p>
+      <div *ngIf='showError' class='isa_warning fa fa-warning' style='margin:2px; float:left; height:auto;'>
+        An account already exists with this email
+      </div>
+    </div>
+    </form>
+
+  </div>
+</div>
+</div>

@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+.align-left {
+  float: left;
+}
+.align-right {
+  float: right;
+}
+/* .all{
+  
+} */
+
+.wrapper {
+  padding-left: 200px;
+  overflow-x: hidden;
+}

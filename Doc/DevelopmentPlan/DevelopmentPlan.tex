@@ -1,0 +1,130 @@
+\documentclass{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+
+\title{SE 3XA3: Development Plan\\Synergy Inventory Management System (SIMS)}
+
+\author{Team \#33, 'Sick Ideas'
+		\\ Nathan Coit -- 400022342
+		\\ Lucas Shanks -- 400029943
+		\\ Cameron Van Ravens -- 400020215
+}
+
+\date{December 4, 2017}
+
+%\input{../Comments}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+11/28/17 & Cam Van Ravens, Nathan Coit, Lucas Shanks & Initial Revision\\
+12/04/17 & Cam Van Ravens, Nathan Coit, Lucas Shanks & Revision 1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+This is the development plan for the \textbf{Synergy Inventory Management System (SIMS)}, which covers the plans for Team meetings and communications, states member roles, as well as covers plans for Git workflow and the technologies involved.
+
+\section{Team Meeting Plan}
+Regular team meetings are to be held weekly on Thursdays at 14:30, with a duration of 1 hour. All team members are required to attend these meetings. Any changes to a specific weekly meeting date must be communicated and approved by all team members, as well as made note of in that week's Meeting Minutes. 
+
+Regular team meetings will cover the following topics:
+\begin{itemize}
+    \item Individual deliverables progress
+    \item Team milestone progress
+    \item Outstanding issues and setbacks
+    \item Any proposed changes (regarding development, requirements, team management, etc.)
+\end{itemize}
+
+
+\section{Team Communication Plan}
+All team communications will be made through a Facebook group chat, if not conducted in person. Team members will be responsible for keeping themselves up-to-date with this chat, as well as using it for all outgoing team communications. All communications regarding the team or project must be accessible by all team members.
+
+\section{Team Member Roles}
+The team member roles will be as follows:
+\begin{itemize}
+    \item \textbf{Nathan Coit}
+        \begin{itemize}
+            \item Developer (Frontend Connectivity)
+            \item Meeting Scribe
+            \item Documentation Expert
+        \end{itemize}
+    \item \textbf{Lucas Shanks}
+        \begin{itemize}
+            \item Developer (Frontend UI)
+            \item QA Manager
+        \end{itemize}
+    \item \textbf{Cameron Van Ravens}
+        \begin{itemize}
+            \item Developer (Backend API)
+            \item Project Manager
+            \item Git \& Technology Expert
+        \end{itemize}
+\end{itemize}
+
+\section{Git Workflow Plan}
+
+The Git workflow will be conducted as follows:
+\begin{itemize}
+    \item \textbf{Production} (or master branch)
+        \begin{itemize}
+            \item This branch will contain a stable build of the project at all times, as this branch will contain the version of the project to be deployed.
+            \item No direct work or edits may be made to this branch. All changes must be made through a pull request.
+            \item Pull requests to this branch must pass all tests and be approved by at least two team members before being approved. \textit{All Pull Requests to this branch can only be made from \textbf{Development}.}
+        \end{itemize}
+    \item \sout{\textbf{Staging}}
+        \begin{itemize}
+            \item \sout{This branch will contain a build of the project to be staged, before it can issue a pull request to the \textbf{Production} branch.}
+            \item \sout{This branch will be subject to testing through Continuous Integration, and will trigger testing upon receiving any changes to its code base.}
+            \item \sout{Pull requests to this branch must be approved by at least two team members.}
+        \end{itemize}
+    \item \textbf{Development}
+        \begin{itemize}
+            \item This branch will contain a build of the project waiting to be tested and deployed.
+            \item Pull requests to this branch can be made from any of the team members main branches
+        \end{itemize}
+    \item \textbf{Individual Main Branches}
+        \begin{itemize}
+            \item Each team member will have their own main branch to work from, forked from the development branch.
+            \item Each team member may create branches from their branch, and merge back to their own branch without audit from other team members.
+            \item Team members are forbidden from pulling changes from another team member's branch
+        \end{itemize}
+\end{itemize}
+
+\section{Proof of Concept Demonstration Plan}
+The Proof of Concept demonstration will present a slimmed-down version of the platform which will store and retrieve user inventory data from the database, and display it in a prototype of the management interface. A significant risk in the development of the Proof of Concept concerns its implementation, however this will be resolved through prioritizing development tasks.
+
+\section{Technology}
+The technologies used for this project will be:
+\begin{itemize}
+    \item \textbf{NodeJS} - The backend language
+    \item \textbf{ExpressJS} - The webserver used for the backend
+    \item \textbf{PostgreSQL} - The database used for the project
+    \item \textbf{HTML, CSS, Typescript} - Used for the frontend user interface
+\end{itemize}
+
+The Javascript and Typescript used in this implementation will follow the new ECMAScript 6th edition features.
+
+\section{Coding Style}
+The coding style that will be followed for this project is Google's coding style for Javascript. This document can be found at \href{https://google.github.io/styleguide/jsguide.html}{\textit{https://google.github.io/styleguide/jsguide.html}}. This coding style will be enforced using a technology called \textit{Linting}, which will analyze and report styling errors to the developer when attempting to run their code.
+
+\section{Project Schedule}
+For the project schedule, please refer to this \href{group33-project-schedule.pdf}{Gantt Chart}.
+
+\section{Project Review}
+In reflection of this Development Plan over the development of this project, it was very effective. Having the defined branches allowed developers to not worry about breaking things for everyone and allowed for more work to be done. The goals of setting up CI/CD had to be dismissed, as the project proved to be too large and featured to write enough tests for effectively using CI in the time constraint, as well as the SSH port being blocked on the GitLab server's firewall made it very difficult to set up a truly automated deployment. Overall, we believe that this development plan was greatly beneficial to our group in allowing us to get this project done efficiently, organized, and painlessly.
+
+\end{document}

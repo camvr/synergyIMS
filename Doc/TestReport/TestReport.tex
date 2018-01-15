@@ -1,0 +1,251 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Test Report\\Synergy Inventory Management System (SIMS)}
+
+\author{Team \#33, 'Sick Ideas'
+		\\ Nathan Coit -- 400022342
+		\\ Lucas Shanks -- 400029943
+		\\ Cameron Van Ravens -- 400020215
+}
+
+\date{December 4, 2017}
+
+%\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+12/02/2017 & 1.0 & Initial Revision\\
+12/04/2017 & 1.1 & Final Revision\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Introduction}
+This document provides the results of testing for the Synergy Inventory Management System. Functional requirement testing, Nonfunctional requirements testing, unit tests and system testing evaluations are all covered in this document. Traceability between testing and Requirements and Modules is given in the final sections of this document. For a Gantt Chart outlining the testing schedule please reference this \href{https://gitlab.cas.mcmaster.ca/coitn/se3xa3-fall2017/tree/dev/Doc/TestReport/gantt}{ganttproject file}.
+
+\section{Nonfunctional Requirements Evaluation}
+
+\subsection{Usability}
+For assessing usability, a simple usability survey was used among a random set of 7 various users. The users were asked to visit the URL provided and complete a simple set of tasks unassisted: Create an account, add some products, categories, brands, warehouses, and to add another user to their company. The users then had to fill out a short questionnaire with some quantitative and qualitative response. The quantitive responses we received are shown in \hyperref[fig:table1]{Figure 1}:
+\begin{figure}[h]
+\centering
+\begin{tabular}{| p{2cm} | p{3cm} | p{3cm} | p{3cm} |}
+\hline
+\textbf{User} & \textbf{Appeal} & \textbf{Ease Of Use} & \textbf{Responsiveness}\\
+\hline
+1 & 7 & 8 & 10\\ \hline
+2 & 8 & 8 & 9\\ \hline
+3 & 8 & 7 & 10\\ \hline
+4 & 10 & 8 & 7\\ \hline
+5 & 9 & 10 & 9\\ \hline
+6 & 8 & 9 & 8\\ \hline
+7 & 8 & 7 & 9\\ \hline\hline
+\textbf{Overall} & \textbf{8.3} & \textbf{8.1} & \textbf{8.9}\\ \hline
+\end{tabular}
+\caption{Usability Survey Results}
+\label{fig:table1}
+\end{figure}
+
+As we can see from the test results, the overall usability was satisfactory. This resulted in considering the usability testing a pass, although from the lower scoring test subjects we received some valuable suggestions on improvements that could be made to the user interface in order to improve the usability.
+		
+\subsection{Performance}
+\label{sec:performance}
+To evaluate performance of the site, we used stress testing under a load of concurrent users. To provide a varying load of concurrent users, we used a tool called LoadImpact, which runs varying amounts of connections from around the world to the website and measures the response time. The specifications of the server the site is hosted on is given in \hyperref[fig:table2]{Figure 2}.\\
+
+The overall response time of the LoadImpact tests averaged under 5 seconds for up to 25 concurrent connections, as shown in the graph \hyperref[fig:figure3]{Figure 3}. This met our performance requirement of having a response time of no greater than 5 seconds, and is therefore this test is considered a pass.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{| p{3cm} | p{3cm} | p{3cm} |}
+\hline
+\textbf{Location} & \textbf{Hardware} & \textbf{Server OS}\\
+\hline
+Toronto, CAN. & 1 CPU Core & CentOS 7.4\\
+ & 512MB RAM & \\
+ & 20GB SSD & \\
+\hline
+\end{tabular}
+\caption{Server used for Hosting}
+\label{fig:table2}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{loadimpact-test.png}
+\caption{Results of the LoadImpact Tests}
+\label{fig:figure3}
+\end{figure}
+
+\subsection{Robustness}
+The robustness of the application with regards to malformed or malicious input were tested in the automatic unit tests of the backend, as well as manually during the system tests. The requests made to the backend were given inputs that were either not expected, of the wrong type, or formed in a way set to break the code or determine a security flaw. However, upon providing these inputs the system responded correctly by rejecting the inputs and returning the proper exceptions back to the user/system. This same behaviour was testing and observed across all of the endpoints, therefore resulting in these tests being considered a pass.
+
+The robustness of the application in regards to performance and handling the stress of concurrent loads was evaluated in the \hyperref[sec:performance]{Performance section}.
+	
+\section{Comparison to Existing Implementation}
+In the existing implementation of \href{https://github.com/siamon123/warehouse-inventory-system}{this project} there are no test cases or unit tests provided as it was not setup to include any automated testing, and therefore any testing was done manually. In this implementation, there are test cases provided as well as some support for automated unit testing.
+
+\section{Unit Testing}
+\label{sec:unittesting}
+The unit testing done on this project was done through automatic blackbox testing done on the backend. Each endpoint was tested in situations ranging from normal, expected use, to malformed input data, to malicious input (i.e. SQL injection). This was done for each endpoint, covering usage of required and optional parameters. As of Rev1 of the project all of the unit test cases pass.
+
+
+\section{System Testing}
+The system testing done for the Synergy Inventory Management System was done manually to ensure that the site behaved and reacted to user input as expected. Some of the system tests that were executed are as follows:\\
+
+\noindent
+\textbf{Test ID}: SYS1\\
+\textbf{Initial State}: User is not logged into the site.\\
+\textbf{Input}: A username and password that have been previously registered.\\
+\textbf{Expected Output}: The user is logged in and brought to the welcome page.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS2\\
+\textbf{Initial State}: User is logged in and at the welcome page.\\
+\textbf{Input}: Visits the inventory page and creates a new product with valid fields.\\
+\textbf{Expected Output}: New product is added to the list of displayed products persistently.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS3\\
+\textbf{Initial State}: User is logged in and at the users page.\\
+\textbf{Input}: Creates a new user with the same email theirs.\\
+\textbf{Expected Output}: System should give an exception as the email is already in use.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS4\\
+\textbf{Initial State}: User is logged out.\\
+\textbf{Input}: Attempts to access the categories page by URL.\\
+\textbf{Expected Output}: User is redirected to the login page.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS5\\
+\textbf{Initial State}: User is logged in as company owner.\\
+\textbf{Input}: Delete the company from the company page.\\
+\textbf{Expected Output}: After several warnings, the company and it's data is deleted and user is redirected to login page.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS6\\
+\textbf{Initial State}: User is logged in as company owner, on the account page.\\
+\textbf{Input}: Requests to change account type to user.\\
+\textbf{Expected Output}: System should not change the owner's account type.\\
+\textbf{Result}: PASS\\
+
+\noindent
+\textbf{Test ID}: SYS7\\
+\textbf{Initial State}: User is logged in and at the inventory page.\\
+\textbf{Input}: Uploads a properly-formatted CSV using the upload routine.\\
+\textbf{Expected Output}: The products should be added to the inventory and appear on page.\\
+\textbf{Result}: PASS\\
+
+
+\section{Changes Due to Testing}
+A summary of the changes made due to testing is given in \hyperref[fig:table4]{Table 4}.
+
+\begin{figure}[h]
+\centering
+\caption{Changes made due to Testing}
+\label{fig:table4}
+\begin{tabular}{ p{\linewidth} }
+\hline
+\textbf{Changes}\\
+\hline
+Improper data validation implementation on creating a user fixed.\\
+Improperly formatted CSV causing server to crash was fixed.\\
+Frontend not receiving certain data due to miscommunication fixed.\\
+Certain endpoints URI paths being interpreted incorrectly fixed.\\
+Registration failing on non-unique company name fixed.\\
+Changing password sets password to old password.\\
+\hline
+\end{tabular}
+\end{figure}
+
+\section{Automated Testing}
+As the Synergy Inventory Management System platform is web-based, Automated Testing in general was not feasible for the entire project. This is due to the fact that user interface elements are very difficult and not practical to test using automated testing methods. Therefore, the system tests and integration tests had to be carried out manually by the testing team.\\
+
+However, for unit testing done on the RESTful API backend, automated testing was achieved using the Postman REST test runner. This allowed for all of the endpoints of the backend platform to be tested against various blackbox test cases, with the output being compared to the expected output and reported to the Postman test runner. A description of the Unit tests carried out by this automated testing method are described in the section on \hyperref[sec:unittesting]{Unit Testing}.
+		
+\section{Trace to Requirements}
+A trace between testing and the Requirements is given in \hyperref[fig:table5]{Table 5}.
+
+\begin{figure}[h]
+\centering
+\caption{Trace between Testing and Requirements}
+\begin{tabular}{| p{4cm} | p{4cm} |}
+\hline
+\textbf{Req't} & \textbf{Test Case ID}\\
+\hline
+REQ1 & 00 - 05\\ \hline
+REQ2 & 10 - 11\\ \hline
+REQ3 & 20 - 22\\ \hline
+REQ4 & 30 - 31\\ \hline
+REQ5 & 40 - 41\\ \hline
+REQ6 & 50 \\ \hline
+REQ7 & 60 - 62\\ \hline
+REQ8 & 70 - 71\\ \hline
+REQ9 & 80 - 84\\ \hline
+\end{tabular}
+\label{fig:table5}
+\end{figure}
+
+\section{Trace to Modules}
+A trace between testing and the Modules is given in \hyperref[fig:table6]{Table 6}.
+
+\begin{figure}[h]
+\centering
+\caption{Trace between Testing and Modules}
+\begin{tabular}{| p{3cm} | p{7cm} |}
+\hline
+\textbf{Test Case} & \textbf{Module ID}\\
+\hline
+SYS1 & mH2, mH4, mH5, mH6\\ \hline
+SYS2 & mH2, mH4, mH5, mH7, mH8\\ \hline
+SYS3 & mH2, mH4, mH5\\ \hline
+SYS4 & mH6\\ \hline
+SYS5 & mH2, mH4, mH5\\ \hline
+SYS6 & mH2, mH4\\ \hline
+SYS7 & mH1, mH3, mH4, mH5, mH7, mH8\\ \hline
+\end{tabular}
+\label{fig:table6}
+\end{figure}
+
+\section{Code Coverage Metrics}
+For a quantified code coverage of the tests that were run, it would be about 80\% to 90\% coverage. The code coverage in this case must be estimated, as absolutely calculating the code coverage using a tool is not feasible for this project. This is because the majority of testing was done via manual testing methods, since the system is controlled by a user interface. Although the backend had automated Unit testing, these tests were done blackbox using an external tool, which cannot perform or judge the analysis of code coverage of the tests.
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\end{document}

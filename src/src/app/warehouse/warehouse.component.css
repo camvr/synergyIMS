@@ -1,0 +1,91 @@
+input {
+  margin: 5px 0;
+}
+
+.panel-body {
+  padding: 6px 6px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.table-striped {
+  padding-left: 5px;
+}
+
+th, td {
+  padding: 6px;
+  text-align: left;
+}
+
+.col-12 {
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+   padding:0;
+   margin:0;
+  }
+      
+    .rows {
+     padding:0;
+    }
+}
+
+.fa-wrench {color: rgb(211,211,211);}
+.fa-trash {color: rgb(211,211,211);}
+.fa-trash:hover, .fa-wrench:hover {color: rgba(1, 7, 8, 0.712);}
+
+.modal-body{
+  margin: auto;
+  width: 90%;
+}
+
+.fa-home {
+  margin-right: 30px;
+  margin-bottom: 30px;
+  background-color: silver;
+}
+.btn-info{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.panel{
+  word-wrap: break-word;
+  min-width: 465px;
+}
+p{
+  word-wrap: break-word;
+}
+#firstDanger{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.panel-info{
+  margin: auto;
+  width: 70%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.labels{
+  background-color: tomato;
+  font-size: 150%;
+  font-weight: bold;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+textarea{
+  max-width: 100%;
+}
+
+.description{
+  margin: auto;
+  width: 90%;
+}

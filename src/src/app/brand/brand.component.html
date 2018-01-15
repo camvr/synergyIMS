@@ -1,0 +1,114 @@
+<!-- Page Content -->
+<meta name='viewport' content='width=device-width' />
+<div class='wrapper'>
+  <h1>Brands</h1>
+  <hr>
+  <div class='rows'>
+    <div *ngFor='let brand of brands' class='Brands'>
+      <div class='col-sm-4'>
+          <div class='panel panel-default'>
+              <div class="card">
+                <div class='image'>
+                </div>
+                  <div class="card-block">
+                    <h2 class='card-title'><b>{{brand.brand_name}}</b></h2>
+                    <p class='card-text'>{{brand.description}}</p>
+                    <p><button class='btn btn-info' (click)='getBrand(brand.id)' data-toggle='modal' data-target='#editModal'><small>Edit</small></button>
+                      <button class='btn btn-info' (click)='getBrand(brand.id)' data-toggle='modal' data-target='#deleteModal'>Delete</button></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class='col-sm-12' align='center'>
+        <div class='addButton'>
+          <button type='button' class='btn btn-primary btn-md' data-toggle='modal' data-target='#insertModal'>Add Brand</button>
+        </div>
+        <ul *ngIf='pager.pages && pager.pages.length' class='pagination'>
+          <li [ngClass]='{disabled:pager.currentPage === 1}'>
+            <a href='javascript:void(0)' (click)='setPage(1);getBrands()'>First</a>
+          </li>
+          <li [ngClass]='{disabled:pager.currentPage === 1}'>
+            <a href='javascript:void(0)' (click)='setPage(pager.currentPage - 1);getBrands()'>Previous</a>
+          </li>
+          <li *ngFor='let page of pager.pages' [ngClass]='{active:pager.currentPage === page}'>
+            <a href='javascript:void(0)' (click)='setPage(page);getBrands();'>{{page}}</a>
+          </li>
+          <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+            <a href='javascript:void(0)' (click)='setPage(pager.currentPage + 1);getBrands()'>Next</a>
+          </li>
+          <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+            <a href='javascript:void(0)' (click)='setPage(pager.totalPages);getBrands()'>Last</a>
+          </li>
+        </ul>
+    </div>
+
+    <div class='modal fade' id='deleteModal' role='dialog'>
+        <div class='modal-dialog modal-sm'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <button type='button' class='close' data-dismiss='modal'>&times;</button>
+              <h4 class='modal-title'>Would you like to delete {{view_brand.brand_name}}</h4>
+            </div>
+            <div class='modal-body'>
+              <p>Are you sure you would like to delete this brand?</p>
+            </div>
+            <div class='modal-footer'>
+              <button class='btn btn-danger' type='button' (click)='deleteBrand(view_brand.id)' data-dismiss='modal'>Delete</button>
+              <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='modal fade' id='editModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title'>Editing {{view_brand.brand_name}}</h4>
+              </div>
+              <div class='modal-body'>
+                <label for='updateform'>Editing {{view_brand.brand_name}}</label>
+                <form (ngSubmit)='editBrand(view_brand.id)' #newUpdateForm='ngForm'>
+                  <label for='brandName'>
+                    <small>Brand Name:</small>
+                  </label>
+                  <input type='text' class='form-control' [(ngModel)]=view_brand.brand_name name='brand_name' placeholder='Brand Name'>
+                  <br>
+                  <label for='brandDescription'>
+                    <small>Description:</small>
+                  </label>
+                  <div>
+                    <textarea class='form-control' rows='4' id='comment' [(ngModel)]=view_brand.description name='description' placeholder='Description'> </textarea>
+                  </div>
+                  <br>
+                  <button type='submit' class='btn btn-success'>Update {{view_brand.brand_name}}</button>
+                </form>
+              </div>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='modal fade' id='insertModal' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                  <h4 class='modal-title'>Create New Brand</h4>
+                </div>
+                <div class='modal-body'>
+                    <input class='form-control' type='text' [(ngModel)]=newBrand.brand_name name='brand_name' placeholder='Brand Name'>
+                    <br>
+                    <textarea class='form-control' rows='4' id='comment' [(ngModel)]=newBrand.description name='description' placeholder='Description'> </textarea>
+                  </div>
+                <div class='modal-footer'>
+                  <button class='btn btn-primary .btn-md' type='button' (click)='createBrand(view_brand.id)'>Add</button>
+                  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>

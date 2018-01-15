@@ -1,0 +1,894 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Test Plan\\Synergy Inventory Management System (SIMS)}
+
+\author{Team \#33, 'Sick Ideas'
+		\\ Nathan Coit - 400022342
+		\\ Lucas Shanks - 400029943
+		\\ Cameron Van Ravens - 400020215
+}
+
+\date{\today}
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp] \label{table:revhist}
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Oct. 27th, 2017 & 0.0 & Initial Revision\\
+Dec. 4th, 2017 & 1.0 & Revision 1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{General Information}
+
+\subsection{Purpose}
+The purpose of this document is to provide a detailed outline in regards to the testing of the \textit{Synergy Inventory Management System} (SIMS). However, due to the early derivation of the test cases, the proposed test plans are subject to change with future developments to the application at hand. These major changes will be outlined in the Revision History (see \hyperref[table:revhist]{Table 1}). 
+
+\subsection{Scope}
+This project is a web-based inventory management system, intended to be accessed and used from a web browser. The scope of testing for such project will cover:
+\begin{itemize}
+    \item The RESTful API
+    \item The frontend functionality
+    \item The backend functionality and responsiveness
+    \item Any algorithms used
+    \item The overall usability of the system on a variety of web browsers
+\end{itemize}
+
+\subsection{Acronyms, Abbreviations, and Symbols}
+Please refer to \hyperref[table:abbr]{Table 2} for abbreviations and acronyms, and refer to \hyperref[table:def]{Table 3} for definitions.
+\newpage
+\begin{table}[h]
+\caption{\textbf{Table of Abbreviations}} \label{table:abbr}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Abbreviation} & \textbf{Definition} \\
+\midrule
+SIMS & (Synergy Inventory Management System) The name of this application \\
+RESTful API & RESTful (Representational State Transfer) Application Program Interface \\
+CI/CD & Continuous Integration/Continuous Deployment \\
+CSV & Comma Separated Values \\
+\bottomrule
+\end{tabularx}
+
+\end{table}
+
+
+\begin{table}[!ht]
+\caption{\textbf{Table of Definitions}} \label{table:def}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Term} & \textbf{Definition}\\
+\midrule
+URL & A string used to refer to a web-based address or request \\
+Local Storage & Browser storage that is written to a cache for consistent data access \\
+Database & A PostgreSQL relational database, running on a remote server \\
+Angular App & A web application using the Angular 4 framework \\
+Token & A string encrypted with user data which is used to verify user access permissions \\
+Valid Token & A token that has been checked to be valid for this web application \\
+HTTP & The standard web request protocol \\
+HTTPS & The standard secure web request protocol \\
+CSV & Comma Seperated Variable File\\
+Page & A web page displayed to the user \\
+JSON & (JavaScript Object Notation) A representation of objects in JavaScript \\
+Frontend & This refers to development done on the visible HTML web pages \\
+Backend & This refers to development done on the functional side of the site, including business logic, RESTful API, and data storage \\
+Most Popular Browsers & This refers to up-to-date editions of Mozilla Firefox, Chrome, Opera, Internet Explorer, Microsoft Edge and Safari browsers \\
+\bottomrule
+\end{tabularx}
+
+\end{table}	
+
+\subsection{Overview of Document}
+The following is a brief outline of what is covered in this document:
+\begin{itemize}
+    \item The plan for software tests in \hyperref[sec:plan]{section 2}
+    \item A description of system tests in \hyperref[sec:system]{section 3}
+    \item Tests for the Proof of Concept in \hyperref[sec:poc]{section 4}
+    \item Comparison to the existing implementation \hyperref[sec:exist]{section 5}
+    \item The unit testing plan in \hyperref[sec:unit]{section 6}
+\end{itemize}
+
+\section{Plan}
+\label{sec:plan}
+	
+\subsection{Software Description}
+Description of system found in \hyperref[fig:table1]{Figure 1}
+\begin{figure}[h]
+\centering
+\begin{tabular}{| p{4cm} | p{3.2cm} | p{3cm} | p{5cm} |}
+\hline
+\textbf{Function} & \textbf{Inputs} & \textbf{Outputs} & \textbf{Summary}\\
+\hline
+1. Login & Login Data & N/A & The login function of the system \\ \hline
+
+2. Register & User Data & N/A & The registration function of the system for creating an account\\ \hline
+
+3. View inventory & UserID & Inventory Page & The function to view a specific inventory page\\ \hline
+
+4. Edit Inventory & ID and info & N/A & The function for editing, adding, and deleting items in an inventory\\ \hline
+
+5. View User Data & UserID & User Details & The function to view a user's own details\\ \hline
+
+6. Edit User Data & UserID and Data & New User Data & The function to edit a user's data in tbe system\\ \hline
+
+7. Logout & UserID & N/A & The function for logging out of the system\\ \hline
+
+\end{tabular}
+
+\caption{Program Description}
+\label{fig:table1}
+
+\end{figure}
+
+
+
+\subsection{Test Team}
+The test team consists of all three group members for writing and manually running test cases:
+\begin{itemize}
+    \item Nathan Coit
+    \item Lucas Shanks
+    \item Cameron Van Ravens
+\end{itemize}
+
+\subsection{Automated Testing Approach}
+\sout{
+Automated testing will be done by setting up Continuous Integration on GitLab to run all the automatic tests whenever a change in detected in the \textbf{Staging} branch of the project. This will run all the tests setup with \textit{Karma} and \textit{Protractor}, reporting to the testing team if the tests were successful before merging the Staging codebase into the \textbf{Master} branch.} Automated testing was decided to be unfeasible and out of scope for our website design. Some automated tested shall be used to test the backend endpoints of the website.
+
+\subsection{Testing Tools}
+The tools used for testing are:
+\begin{itemize}
+    \item \sout{\textbf{Karma}: JavaScript and Typescript unit tests}
+    \item \sout{\textbf{Protractor}: End-to-End frontend tests (Integration testing)}
+    \item \sout{\textbf{Istanbul}: Code test coverage}
+    \item \sout{\textbf{GitLab CI/CD}: Automated testing and deployment to server}
+    \item \textbf{LoadImpact}: To test the number of concurrent users the site can handle
+    \item \textbf{Postman}: To test REST api endpoints
+\end{itemize}
+
+\subsection{Testing Schedule}
+For the testing schedule, please refer to this \href{https://gitlab.cas.mcmaster.ca/coitn/se3xa3-fall2017/tree/dev/Doc/TestPlan/gantt}{ganttproject file}.
+
+\section{System Test Description}
+\label{sec:system}
+
+\subsection{Tests for Functional Requirements}
+
+\subsubsection{REQ1 Testing}
+		
+\paragraph{URL accessible from most browsers}
+
+\begin{enumerate}
+\item{test-00\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running.
+					
+\textbf{Input}: HTTPS request from an up to date Chrome browser.
+					
+\textbf{Output}: Angular app.
+					
+\textbf{How test will be performed}: Enter the synergy inventory management system URL in an up to date Chrome browser and check that the angular app is returned.
+					
+\item{test-01\\}    
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running.
+					
+\textbf{Input}: HTTPS request from an up to date Firefox browser
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}:  Enter the synergy inventory management system URL in an up to date Firefox browser and check that the angular app is returned.
+
+\item{test-02\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running
+					
+\textbf{Input}: HTTPS request from an up to date Safari browser
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Enter the synergy inventory management system URL in an up to date Safari browser and check that the angular app is returned.
+
+\item{test-03\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running.
+					
+\textbf{Input}: HTTPS request from an up to date opera browser
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Enter the synergy inventory management system URL in an up to date Opera browser and check that the angular app is returned.
+
+\item{test-04\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running
+					
+\textbf{Input}: HTTPS request from an up to date internet explorer browser
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Enter the synergy inventory management system URL in an up to date Internet Explorer browser and check that the angular app is returned.
+
+\item{test-05\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Database and system running
+					
+\textbf{Input}: HTTPS request to a missing URL
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: The test will be considered a pass if after entering a synergy inventory management system URL that is not specified in the system, either a 404 page is displayed or the user is redirected to the login page.
+
+\end{enumerate}
+
+\subsubsection{REQ2 Testing}
+		
+\paragraph{Logged in user can view their data}
+
+\begin{enumerate}
+\item{test-10\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: User has a valid login token in local storage and is on the user data page.
+					
+\textbf{How test will be performed}: The test will be considered a pass if the page shows all the user data and the user data matches the data in the database.
+					
+\item{test-11\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Use has a valid login token in local storage
+
+\textbf{How test will be performed}: The test will be considered a pass if a user with a valid token is not redirected upon navigating to the user data page.
+
+\end{enumerate}
+
+\subsubsection{REQ3 Testing}
+		
+\paragraph{Login brings user to main overview or last page}
+
+\begin{enumerate}
+\item{test-20\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: User not logged in and navigated to the login page
+
+\textbf{How test will be performed}: Test will be considered a pass if the user is navigated to the home page after successfully logging in.
+					
+\item{test-21\\}
+
+\textbf{Type}: Functional(dynamic, \sout{automatic} manual)
+					
+\textbf{Initial State}: User not logged in and redirected from the products page to the login page
+					
+\textbf{How test will be performed}: Test will be considered a pass if the user is redirected to the products page after successfully logging in.
+
+\item{test-22\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: User not logged in and redirected from the home page
+					
+\textbf{How test will be performed}: Test will be considered a pass if the user is redirected to the home page after successfully logging in.
+
+\end{enumerate}
+
+\subsubsection{REQ4 Testing}
+		
+\paragraph{Add items to database}
+
+\begin{enumerate}
+
+\item{test-30\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: No items in table
+					
+\textbf{Input}: A product name and a product description
+					
+\textbf{Output}: A confirmation message
+					
+\textbf{How test will be performed}: The test will be considered a pass if an item can be added to an empty table through the products page and the user is alerted that the item has successfully been added
+					
+\item{test-31\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: Items in table
+					
+\textbf{Input}: A product name and product description
+					
+\textbf{Output}: A confirmation message
+					
+\textbf{How test will be performed}: The test will be considered a pass if the item was successfully added to the table through the product page and the user is alerted with a success message.
+
+\end{enumerate}
+
+\subsubsection{REQ5 Testing}
+		
+\paragraph{Import items from CSV document}
+
+\begin{enumerate}
+\item{test-40\\}
+
+\textbf{Type}: Functional(dynamic, \sout{automatic} manual)
+					
+\textbf{Initial State}: No items in database
+					
+\textbf{Input}: Properly formatted CSV file from import page
+					
+\textbf{Output}: confirmation message 
+					
+\textbf{How test will be performed}: The test will be considered a pass if all the items in the csv file match the items in the table.
+					
+\item{test-41\\}
+
+\textbf{Type}: Functional(dynamic, \sout{automatic} manual)
+					
+\textbf{Initial State}: Items in the user table
+					
+\textbf{Input}: Properly formatted CSV file through import page
+					
+\textbf{Output}: Confirmation message
+					
+\textbf{How test will be performed}: The test will be considered a pass if all the items in the CSV file are present in the table as well as all the items that were in the table before the import.
+
+\end{enumerate}
+
+\subsubsection{REQ6 Testing}
+		
+\paragraph{User shall be able to edit their data}
+
+\begin{enumerate}
+\item{test-50\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+					
+\textbf{Initial State}: User logged in and on the user details page
+
+\textbf{How test will be performed}: Test will be considered a pass if the user details are editable through the user details page and these changes are saved into the database upon navigating away from the user details and then back. 
+
+\end{enumerate}
+
+\subsubsection{REQ7 Testing}
+		
+\paragraph{Application shall be mobile responsive}
+
+\begin{enumerate}
+\item{test-60\\}
+
+\textbf{Type}: Functional(Dynamic, Manual)
+
+\textbf{Initial State}: Database and server running
+
+\textbf{Input}: Navigate to URL on an iPhone mobile device.
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Upon navigating to the SIMS URL on an IPhone mobile device, the angular app is displayed.
+					
+\item{test-61\\}
+
+\textbf{Type}: Functional(Dynamic, Manual)
+					
+\textbf{Initial State}: Database and server running
+
+\textbf{Input}: Navigate to URL on a Samsung mobile device
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Upon navigating to the SIMS URL on a Samsung mobile device, the angular app is displayed.
+					
+\item{test-62\\}
+
+\textbf{Type}: Functional(Dynamic, Manual) 
+	
+\textbf{Initial State}: Database and server running
+
+\textbf{Input}: Navigate to URL on a BlackBerry mobile device.
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Upon navigating to the SIMS URL on a Blackberry mobile device, the angular app is displayed.
+
+\end{enumerate}
+
+\subsubsection{REQ8 Testing}
+		
+\paragraph{Multiple users viewing a single inventory page}
+
+\begin{enumerate}
+\item{test-70\\}
+
+\textbf{Type}: System(dynamic, manual)
+					
+\textbf{Initial State}: Two users of the same company logged in, one user currently has a specific inventory page open
+					
+\textbf{How test will be performed}: The test will be considered a pass if the second user is able to view the same specific products page at the same time.
+					
+\item{test-71\\}
+
+\textbf{Type}: System(dynamic, manual)
+					
+\textbf{Initial State}: A user logged in and on a specific products page, and multiple other users of the same company logged in.
+					
+\textbf{How test will be performed}: The test will be considered a pass if up to 10 users from the same company are also able to view the specific inventory page at the same time
+
+\end{enumerate}
+
+\subsubsection{REQ9 Testing}
+		
+\paragraph{Database shall have a recent backup}
+
+\begin{enumerate}
+\item{test-80\\}
+
+\textbf{Type}: Functional(dynamic, manual)
+
+\textbf{How test will be performed}: Test will be considered a pass if a new database can be set up with a back up of the current database that matches the contents of the current database.
+
+\item{test-81\\}
+
+\textbf{Type}: Functional(static, automatic)
+
+\textbf{How test will be performed}: Test will be considered a pass if the creation date of the newest backup is less than three days old.
+
+\end{enumerate}
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\subsubsection{Look and feel Requirements}
+		
+\paragraph{User Feedback}
+
+\begin{enumerate}
+
+\item{test-90\\}
+
+\textbf{Type}: Functional (manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: A user at the landing page, a questionnaire, and a Test Team member to interview the user.
+					
+\textbf{Output}: Detailed feedback from the user.
+					
+\textbf{How test will be performed}: A user is tasked with setting up a basic account and navigating around the website in whatever manner they please. This test will be considered a pass if the majority of feedback returned is positive, while all feedback will still be reviewed.
+					
+\end{enumerate}
+
+\subsubsection{Usability and Humanity Requirements}
+		
+\paragraph{Questionnaires and Interviews}
+
+\begin{enumerate}
+
+\item{test-100\\}
+
+\textbf{Type}: Functional (dynamic, manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: A user at the website landing page and a questionnaire.
+					
+\textbf{Output}: Detailed feedback from the user.
+					
+\textbf{How test will be performed}: A user is tasked with setting up a basic account and exploring the primary features of the application. Feedback will be obtained through the use of a questionnaire and later reviewed.
+					
+\item{test-101\\}
+
+\textbf{Type}: Functional (dynamic, manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: A user at the website landing page.
+					
+\textbf{Output}: Detailed feedback from the user.
+					
+\textbf{How test will be performed}: A user is tasked with setting up a basic account and exploring the primary features of the application. During this time, the user will be interviewed and discuss website usability with one or more members of the Test Team.
+
+\end{enumerate}
+
+\subsubsection{Performance Requirements}
+		
+\paragraph{Web Performance}
+
+\begin{enumerate}
+
+\item{test-110\\}
+
+\textbf{Type}: Functional (manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: A tester at the website landing page.
+					
+\textbf{Output}: Performance information on the application
+					
+\textbf{How test will be performed}: The application will be manually tested by the Test Team. All features of the website must be explored and shall respond to a user request in less than 5 seconds.
+					
+\item{test-111\\}
+
+\textbf{Type}: Functional (manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: The angular application and LoadImpact
+					
+\textbf{Output}: Performance data on the website
+					
+\textbf{How test will be performed}: The application will be automatically tested by LoadImpact. This will help to benchmark performance and run capacity tests to determine the maximum number of concurrent users that can be accommodated by the application with little change in expected performance.
+
+\end{enumerate}
+
+
+\subsubsection{Operational and Environmental Requirements}
+		
+\paragraph{The Product shall be Available through most Popular Browsers}
+
+\begin{enumerate}
+
+\item{test-120\\}
+
+\textbf{Type}: System (dynamic, manual)
+					
+\textbf{How test will be performed}: The user will try to access the web application through the most popular browsers. If the web application displays and works similarly and as intended across all the tested browsers, then that is considered a pass.
+				
+\end{enumerate}
+
+
+\subsubsection{Maintainability and Support Requirements}
+		
+\paragraph{Application Maintainability}
+
+\begin{enumerate}
+
+\item{test-130\\}
+
+\textbf{Type}: System (manual)
+					
+\textbf{Initial State}: N/A
+					
+\textbf{Input}: Angular app
+					
+\textbf{Output}: Angular app
+					
+\textbf{How test will be performed}: Through white-box testing, the entire application will be reviewed by the Test Team. Changes may be made so the software is more easily modifiable to suit the client's future needs or any future functionality that may be implemented. If the Test Team finds no updates that need to be made, then that is considered a pass.
+\end{enumerate}
+
+
+\subsubsection{Security Requirements}
+		
+\paragraph{Users Must be Logged in to Access the Application}
+
+\begin{enumerate}
+
+\item{test-140\\}
+
+\textbf{Type}: System (dynamic, manual)
+					
+\textbf{Initial State}: User is logged out of the system, or does not have a valid token
+					
+\textbf{Input}: User navigates to Inventory page
+					
+\textbf{Output}: User is redirected
+					
+\textbf{How test will be performed}: The user will attempt to access the any page (other than login and register) while they are logged out. The user being redirected to the login page will be considered a pass.
+					
+\item{test-141\\}
+
+\textbf{Type}: System (dynamic, manual)
+					
+\textbf{Initial State}: User is logged out of the system, or does not have a valid token
+					
+\textbf{Input}: User submits valid login information at the login page form
+					
+\textbf{Output}: User is redirected
+					
+\textbf{How test will be performed}: The user will submit valid login information while they are logged out. After successfully logging in, the user being redirected to the application home page will be considered a pass.
+\end{enumerate}
+
+\paragraph{Users should only be able to View their own Inventory and Data}
+
+\begin{enumerate}
+
+\item{test-142\\}
+
+\textbf{Type}: System (dynamic, manual)
+					
+\textbf{Initial State}: User is logged in, or has a valid token
+					
+\textbf{Input}: User visits the inventory page
+					
+\textbf{Output}: Items are displayed in items table
+					
+\textbf{How test will be performed}: The user will access their inventory page while they are logged in. If the items displayed in the items table are items with a company\_id field matching the user's company\_id field, then this is considered a pass.
+
+\end{enumerate}
+
+\newpage
+\subsection{Traceability Between Test Cases and Requirements}
+\begin{figure}[h]
+\centering
+
+\begin{tabular}{| p{4cm} | p{4cm} |}
+\hline
+\textbf{Req't} & \textbf{Test Case ID}\\
+\hline
+REQ1 & 00 - 05\\ \hline
+
+REQ2 & 10 - 11\\ \hline
+
+REQ3 & 20 - 22\\ \hline
+
+REQ4 & 30 - 31\\ \hline
+
+REQ5 & 40 - 41\\ \hline
+
+REQ6 & 50 \\ \hline
+
+REQ7 & 60 - 62\\ \hline
+ 
+REQ8 & 70 - 71\\ \hline
+
+REQ9 & 80 - 84\\ \hline
+
+\hline
+\end{tabular}
+
+\caption{Requirement Traceability Matrix}
+\label{fig:table2}
+
+\end{figure}
+
+
+\section{Tests for Proof of Concept}
+\label{sec:poc}
+
+\subsection{POC Inventory Page Tests}
+
+\subsubsection{Retrieval of Products}
+
+\begin{enumerate}
+\item{test-poc00\\}
+
+\textbf{Type}: Integration(dynamic, manual)
+
+\textbf{Initial State}: No products are displayed, function is called
+
+\textbf{Input}: N/A
+
+\textbf{Output}: The list of products is displayed
+
+\textbf{How test will be performed}: The test will be considered a pass if the user visits the inventory page and is presented with all of the products in the database in a visible table.
+
+\item{test-poc01\\}
+
+\textbf{Type}: Unit(dynamic, automatic)
+
+\textbf{Initial State}: No products are returned, GET request made to endpoint
+
+\textbf{Input}: GET /api/products
+
+\textbf{Output}: Status 200 response, JSON formatted list of products.
+
+\textbf{How test will be performed}: The unit test will make a GET request to /api/products, and will be considered a pass if the returned response status is 200 and all of the products currently in the database are returned in the response.
+
+\item{test-poc02\\}
+
+\textbf{Type}: Unit(dynamic, automatic)
+
+\textbf{Initial State}: No products are returned, GET request made to endpoint
+
+\textbf{Input}: GET /api/products/:id
+
+\textbf{Output}: Status 200 response, JSON formatted product entry
+
+\textbf{How test will be performed}: The unit test will make a GET request to /api/products/:id, where id relates to an existing entry in the database. The test will be considered a pass if the returned response status is 200 and the product matching this id is returned in the response.
+\end{enumerate}
+
+\subsubsection{Creation of Products}
+
+\begin{enumerate}
+\item{test-poc10\\}
+
+\textbf{Type}: Integration(dynamic, manual)
+
+\textbf{Initial State}: No products are in database, user enters data for a new product, the function is called
+
+\textbf{Input}: Enters data in appropriate fields on web page
+
+\textbf{Output}: The newly created product is stored in database and appears on screen
+
+\textbf{How test will be performed}: The test will be considered a pass if the user creates a new product in the Inventory page and after submitting the new product it appears in the visible products table.
+
+\item{test-poc11\\}
+
+\textbf{Type}: Unit(dynamic, automatic)
+
+\textbf{Initial State}: No products are in database, POST request made to endpoint
+
+\textbf{Input}: POST /api/products with appropriate data in request body
+
+\textbf{Output}: Status 201 response, new entry in database
+
+\textbf{How test will be performed}: The unit test will make a POST request to /api/products with the appropriate data in the request body (formatted as JSON), and will be considered a pass if the response returns status 200 and the new product is stored in the database.
+\end{enumerate}
+
+\subsubsection{Updating Product Information}
+
+\begin{enumerate}
+\item{test-poc20\\}
+
+\textbf{Type}: Integration(dynamic, manual)
+
+\textbf{Initial State}: At least one product in the database, user enters new data for a specific product, the function is called
+
+\textbf{Input}: Enters data into appropriate fields on web page
+
+\textbf{Output}: The new product information is stored in database and appears on screen
+
+\textbf{How test will be performed}: The test will be considered a pass if the user enters the modified product information in the correct form, and after submitting the new product information the changes are reflected in the visible products table.
+
+\item{test-poc21\\}
+
+\textbf{Type}: Unit(dynamic, automatic)
+
+\textbf{Initial State}: At least one product in the database, PATCH request made to endpoint
+
+\textbf{Input}: PATCH /api/products/:id with appropriate data in request body
+
+\textbf{Output}: Status 200 response, changes are stored in database
+
+\textbf{How test will be performed}: The unit test will make a PATCH request to /api/products/:id, where id relates to an existing entry in the database, with the appropriate data in the request body (formatted as JSON), and will be considered a pass if the response returns status 200 and the changes to the product is stored in the database.
+\end{enumerate}
+
+\subsubsection{Deleting a Product}
+
+\begin{enumerate}
+\item{test-poc30\\}
+
+\textbf{Type}: Integration(dynamic, manual)
+
+\textbf{Initial State}: At least one product in the database, user clicks on the garbage bin icon beside a product, the function is called
+
+\textbf{Input}: User clicks on garbage bin icon beside a product
+
+\textbf{Output}: The product is removed from the database, the change is reflected on the screen
+
+\textbf{How test will be performed}: The test will be considered a pass if the user clicks on the garbage bin icon beside a product in the visible products table, and the product is subsequently removed from the table.
+
+\item{test-poc31\\}
+
+\textbf{Type}: Unit(dynamic, automatic)
+
+\textbf{Initial State}: At least one product in the database, DELETE request made to endpoint
+
+\textbf{Input}: DELETE /api/products/:id
+
+\textbf{Output}: Status 200 response, entry is removed from the database
+
+\textbf{How test will be performed}: The unit test will make a DELETE request to /api/products/:id, where id relates to an existing entry in the database, and will be considered a pass if the response returns status 200 and the product is removed from the database.
+\end{enumerate}
+
+
+\section{Comparison to Existing Implementation}
+\label{sec:exist}
+In the existing implementation of \href{https://github.com/siamon123/warehouse-inventory-system}{this project} there are no test cases or unit tests provided as it was not setup to include any automated testing, and therefore any testing was done manually. In this implementation, there will be test cases provided as well as support for automated unit and integration testing.
+
+
+\section{Unit Testing Plan}
+\label{sec:unit}
+
+% This is what the marking scheme says: Plans for unit testing - what type of tests? need for stubs or drivers? coverage metrics? Stubs may be used for frontend & backend tests, drivers for the api tests
+
+\subsection{Unit testing of internal functions}
+Functions that do not change state variables shall be tested using a black box test method, where the desired output shall be checked against the actual output for a test set of inputs. \\
+For functions that require or change state variables, white box testing will be used to check that the state variables have been changed to desired values after function calls. \\
+For front end functions, stubs may be set up if no backend function has been set up to recieve the information sent. Also for backend functions, stubs and drivers may be set up to test functionality if no frontend functionality has been set up at the time.
+
+%\subsection{Unit testing of output files}
+
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\newpage
+
+\section{Appendix}
+
+This is where you can place additional information.
+
+\subsection{Symbolic Parameters}
+No symbolic constants are used.
+\subsection{Usability Survey Questions}
+
+\begin{figure}[h]
+\centering
+
+\begin{tabular}{| p{12cm} | }
+\hline
+\textbf{Usability Questionnare}\\
+\hline\\
+\centering
+
+\textbf{What do you think the purpose of this website is?}\\
+\fontdimen2\font=15pt
+
+\textbf{\\How did you find the layout of the website?}\\
+\fontdimen2\font=15pt
+
+\textbf{\\On a scale of 1 to 10, with 10 being Very Appealing and 1 being Very Unappealing, how appealing did you find the website?}\\
+\fontdimen2\font=15pt
+1 2 3 4 5 6 7 8 9 10\\
+\fontdimen2\font=2pt
+
+\textbf{\\On a scale of 1 to 10, with 10 being Very Easy and 1 being Very Hard, how easy to use did you find the website?}\\
+\fontdimen2\font=15pt
+1 2 3 4 5 6 7 8 9 10\\
+\fontdimen2\font=2pt
+
+\textbf{\\On a scale of 1 to 10, with 10 being Very Fast and 1 being Very Slow, how responsive did you find the website?}\\
+\fontdimen2\font=15pt
+1 2 3 4 5 6 7 8 9 10 \\
+\fontdimen2\font=2pt
+
+\textbf{\\If you could change one thing on the website, what would you change first?}\\
+\fontdimen2\font=15pt
+
+
+\tabularnewline
+\hline
+
+
+\end{tabular}
+\caption{Usability Questionnaire}
+\label{fig:table3}
+
+\end{figure}
+
+\end{document}

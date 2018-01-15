@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX companies_company_name_uindex ON syn_user.companies (company_name);

@@ -1,0 +1,347 @@
+<!-- Page Content -->
+<meta name='viewport' content='width=device-width' />
+<div class='wrapper'>
+  <h1>Inventory</h1>
+  <hr>
+  <div class='rows'>
+    <div class='col-sm-12'>
+      <div id='search'>
+        <form (ngSubmit)='onViewPage()' #searchForm='ngForm'>
+          <input type='text' [(ngModel)]=search name='search' placeholder='search' class='form-control'>
+          <button type='submit' value='submit' class='btn btn-default btn-sm'>Search</button>
+        </form>
+      </div>
+      <div>
+        <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Page Limit
+          <span class='caret'></span>
+        </button>
+        <ul class='dropdown-menu col-sm-12 pre-scrollable' style='width:50%'>
+          <li *ngFor='let num of numbers'>
+            <input type='radio' [(ngModel)]=limit [value]='num' name='brand'>{{num}}
+          </li>
+        </ul>
+      </div>
+      <div style='float:right'>
+        <button type='button' class='btn btn-default btn-md' data-toggle='modal' data-target='#uploadModal'>Import csv</button>
+        <button type='button' class='btn btn-primary btn-md' data-toggle='modal' data-target='#insertModal'>Add item</button>
+      </div>
+      <div class='col-sm-12'>
+        <div class='table-responsive'>
+          <table class='table table-hover'>
+            <thead>
+              <tr>
+                <th>
+                  <a (click)="sort_by='item_name'; desc = !desc; onViewPage()">Product Name
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'item_name' && !desc, 
+                    'noShow': !(sort_by === 'item_name') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'item_name' && desc, 
+                    'noShow': !(sort_by === 'item_name') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='quantity'; desc = !desc; onViewPage()">Quantity
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'quantity' && !desc, 
+                    'noShow': !(sort_by === 'quantity') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'quantity' && desc, 
+                    'noShow': !(sort_by === 'quantity') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='price'; desc = !desc; onViewPage()">Price
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'price' && !desc, 
+                        'noShow': !(sort_by === 'price') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'price' && desc, 
+                        'noShow': !(sort_by === 'price') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='category_name'; desc = !desc; onViewPage()">Category
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'category_name' && !desc, 
+                          'noShow': !(sort_by === 'category_name') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'category_name' && desc, 
+                          'noShow': !(sort_by === 'category_name') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='brand_name'; desc = !desc; onViewPage()">Brand
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'brand_name' && !desc, 
+                            'noShow': !(sort_by === 'brand_name') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'brand_name' && desc, 
+                            'noShow': !(sort_by === 'brand_name') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='warehouse_name'; desc = !desc; onViewPage()">Warehouse
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'warehouse_name' && !desc, 
+                            'noShow': !(sort_by === 'warehouse_name') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'warehouse_name' && desc, 
+                            'noShow': !(sort_by === 'warehouse_name') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th>
+                  <a (click)="sort_by='serial_num'; desc = !desc; onViewPage()">Serial Num
+                    <div class='asc'>
+                      <i class='fa fa-arrow-circle-up' [ngClass]="{'show': sort_by === 'serial_num' && !desc, 
+                              'noShow': !(sort_by === 'serial_num') || desc}"></i>
+                      <i class='fa fa-arrow-circle-down' [ngClass]="{'show': sort_by === 'serial_num' && desc, 
+                              'noShow': !(sort_by === 'serial_num') || !desc}"></i>
+                    </div>
+                  </a>
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody *ngFor='let product of products'>
+
+              <tr>
+                <td>{{ product.item_name }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.category_name }}</td>
+                <td>{{ product.brand_name }}</td>
+                <td>{{ product.warehouse_name}}</td>
+                <td>{{ product.serial_num }}</td>
+                <td>
+                  <a href='javascript:void(0)' (click)='onViewOne(product.id)' data-toggle='modal' data-target='#editModal'>
+                    <i class='fa fa-wrench' aria-hidden='true'></i>
+                  </a>
+                </td>
+                <td>
+                  <a href='javascript:void(0)' (click)='onViewOne(product.id)' data-toggle='modal' data-target='#deleteModal'>
+                    <i class='fa fa-trash' aria-hidden='true'></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div align='center' class='col-sm-12'>
+          <ul *ngIf='pager.pages && pager.pages.length' class='pagination'>
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a href='javascript:void(0)' (click)='setPage(1);onViewPage()'>First</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+              <a href='javascript:void(0)' (click)='setPage(pager.currentPage - 1);onViewPage()'>Previous</a>
+            </li>
+            <li *ngFor='let page of pager.pages' [ngClass]="{active:pager.currentPage === page}">
+              <a href='javascript:void(0)' (click)='setPage(page);onViewPage();'>{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a href='javascript:void(0)' (click)='setPage(pager.currentPage + 1);onViewPage()'>Next</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a href='javascript:void(0)' (click)='setPage(pager.totalPages);onViewPage()'>Last</a>
+            </li>
+          </ul>
+        </div>
+
+        <div style='float:right' *ngIf='products?.length > 0'>
+          <p class='label label-success' *ngIf='showConfirm'>Created!</p>
+          <button type='button' class='btn btn-default btn-md' (click)='createSnapshot()'>Create Snapshot</button>
+        </div>
+
+
+        <!-- Insert Modal -->
+        <div class='modal fade' id='insertModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title'>Create New Item</h4>
+              </div>
+              <div class='modal-body'>
+                <form (ngSubmit)='onCreate()' #newProductForm='ngForm'>
+                  <label for='itemName'>Item Name:</label>
+                  <div>
+                    <input type='text' class='form-control' [(ngModel)]=newProduct.item_name name='item_name' placeholder='Product Name'>
+                  </div>
+                  <label for='itemDescription'>Description: </label>
+                  <div>
+                    <textarea type='text' class='form-control' [(ngModel)]=newProduct.description name='description' placeholder='Description'></textarea>
+                  </div>
+
+                  <div *ngIf='brands?.length>0'>
+                    <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Brands
+                      <span class='caret'></span>
+                    </button>
+                    <ul class='dropdown-menu col-sm-12 pre-scrollable'>
+                      <li *ngFor='let brand of brands'>
+                        <input type='radio' [(ngModel)]=newProduct.brand_id [value]='brand.id' name='brand'>{{brand.brand_name}}
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf='categories?.length>0'>
+                    <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Categories
+                      <span class='caret'></span>
+                    </button>
+                    <ul class='dropdown-menu col-sm-12 pre-scrollable'>
+                      <li *ngFor='let category of categories'>
+                        <input type='radio' [(ngModel)]=newProduct.category_id [value]='category.id' name='category'>{{category.category_name}}
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div *ngIf='warehouses?.length>0' class='dropdown'>
+                    <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Warehouses
+                      <span class='caret'></span>
+                    </button>
+                    <ul class='dropdown-menu col-sm-12 pre-scrollable'>
+                      <li *ngFor='let warehouse of warehouses'>
+                        <input type='radio' [(ngModel)]=newProduct.warehouse_id [value]='warehouse.id' name='warehouse'>{{warehouse.warehouse_name}}
+                      </li>
+                    </ul>
+                  </div>
+
+                  <br>
+                  <label for='itemPrice'>Price:</label>
+                  <div>
+                    <input type='number' class='form-control' min=0 [(ngModel)]=newProduct.price name='price' placeholder='Price'>
+                  </div>
+                  <label for='itemQuantity'>Quantity:</label>
+                  <div>
+                    <input type='number' class='form-control' min=0 [(ngModel)]=newProduct.quantity name='quantity' placeholder='Quantity'>
+                  </div>
+                  <label for='itemSerial'>Serial Number:</label>
+                  <div>
+                    <input type='number' class='form-control' min=0 [(ngModel)]=newProduct.serial_num name='serial_num' placeholder='Serial Number'>
+                  </div>
+
+                  <button type='submit' class='btn btn-primary btn-md' value='Submit'>Add to inventory</button>
+                </form>
+              </div>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Product Modal -->
+        <div class='modal fade' id='editModal' role='dialog'>
+          <div class='modal-dialog modal-lg'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title'>Editing {{view_product.item_name}}</h4>
+              </div>
+              <div class='modal-body'>
+                <label for='productName'>Name: </label>
+                <div>
+                  <input type='text' class='form-control' [(ngModel)]=view_product.item_name name='item_name' placeholder='Product Name'>
+                </div>
+                <label for='productDescription'>Description:</label>
+                <div>
+                  <textarea class='form-control' class='form-control' [(ngModel)]=view_product.description name='description' placeholder='Description'></textarea>
+                </div>
+                <div *ngIf='brands?.length>0'>
+                  <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Brands
+                    <span class='caret'></span>
+                  </button>
+                  <ul class='dropdown-menu col-sm-12'>
+                    <li *ngFor='let brand of brands'>
+                      <input type='radio' [(ngModel)]=view_product.brand_id [value]='brand.id' name='brand'>{{brand.brand_name}}
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf='categories?.length>0'>
+                  <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Categories
+                    <span class='caret'></span>
+                  </button>
+                  <ul class='dropdown-menu col-sm-12'>
+                    <li *ngFor='let category of categories'>
+                      <input type='radio' [(ngModel)]=view_product.category_id [value]='category.id' name='category'>{{category.category_name}}
+                    </li>
+                  </ul>
+                </div>
+
+                <div *ngIf='warehouses?.length>0' class='dropdown'>
+                  <button class='btn btn-primary btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>Warehouses
+                    <span class='caret'></span>
+                  </button>
+                  <ul class='dropdown-menu col-sm-12'>
+                    <li *ngFor='let warehouse of warehouses'>
+                      <input type='radio' [(ngModel)]=view_product.warehouse_id [value]='warehouse.id' name='warehouse'>{{warehouse.warehouse_name}}
+                    </li>
+                  </ul>
+                </div>
+                <br>
+                <label for='price'>Price: </label>
+                <div>
+                  <input type='number' min=0 class='form-control' [(ngModel)]=view_product.price name='price' placeholder='Price'>
+                </div>
+                <label for='quantity'>Quantity: </label>
+                <div>
+                  <input type='number' min=0 class='form-control' [(ngModel)]=view_product.quantity name='quantity' placeholder='Quantity'>
+                </div>
+                <label for='serial_num'>Serial Number: </label>
+                <div>
+                  <input type='number' min=0 class='form-control' [(ngModel)]=view_product.serial_num name='serial_num' placeholder='Serial Number'>
+                </div>
+
+                <button type='button' class='btn btn-success' (click)='onUpdate(view_product.id)' data-dismiss='modal'>Update {{view_product.item_name}}</button>
+
+              </div>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Product Modal -->
+        <div class='modal fade' id='deleteModal' role='dialog'>
+          <div class='modal-dialog modal-sm'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                <h4 class='modal-title'>Would you like to delete {{view_product.item_name}}</h4>
+              </div>
+              <div class='modal-body'>
+                <p>Are you sure you would like to delete this product?</p>
+              </div>
+              <div class='modal-footer'>
+                <button class='btn btn-danger' type='button' (click)='onDelete(view_product.id)' data-dismiss='modal'>Delete {{view_product.item_name}}</button>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload CSV modal -->
+        <div class='modal fade' id='uploadModal' role='dialog'>
+          <div class='modal-dialog modal-sm' style='background:rgb(255, 255, 255)'>
+            <div class='modal-header'>
+              <button type='button' class='close' data-dismiss='modal'>&times;</button>
+              <h4 class='modal-title'>Upload a CSV* file!</h4>
+            </div>
+            <div class='modal-body'>
+              <form (ngSubmit)='fileUpload(fileupload.files)' #csvForm='ngForm'>
+                <input #fileupload class='form-control' type='file' [(ngModel)]='myFile' name='csvFile'>
+                <button class='btn btn-default' type='submit' value='Submit'>Upload</button>
+              </form>
+            </div>
+            <div class='modal-footer' style='font-size:70%'>
+              <p>* CSV file must be follow style:</p>
+              <p>item_name,description,price,quantity,serial_num</p>
+              <p>a,b,0,0,0</p>
+              <p>c,d,0,0,0</p>
+              <p>...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

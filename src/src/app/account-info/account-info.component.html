@@ -1,0 +1,127 @@
+<div class='wrapper'>
+  <h1>Account Info</h1>
+  <div *ngIf='accountInfo.id'>
+    <div class='panel panel-info'>
+
+
+      <div class='panel-heading'>
+        <a href='#firstNameLastName' data-toggle='collapse'> {{accountInfo.first_name}} {{accountInfo.last_name}}
+          <i class='fa fa-wrench' aria-hidden='true'></i>
+        </a>
+
+        <div id='firstNameLastName' class='collapse'>
+          <form class='form-inline' (ngSubmit)='updateUserInfo()' #ngUpdateForm='ngForm'>
+            <div>
+              <label>
+                <label for='firstName'>First Name:</label>
+                <input type='text' [(ngModel)]='accountUpdate.first_name' name='uName' class='form-control' id='uName'>
+              </label>
+
+            </div>
+            <div>
+              <label>
+                <label for='lastName'>Last Name:</label>
+                <input type='text' [(ngModel)]='accountUpdate.last_name' name='uLName' class='form-control' id='uLName'>
+
+              </label>
+            </div>
+            <div>
+              <label>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <div class='panel-body'>
+        <div class='col-sm-12'>
+          <a style='margin-right:15px'> {{accountInfo.account_type}}</a>
+        </div>
+
+        <div class='col-sm-12'>
+          <a href='#email' data-toggle='collapse'> {{accountInfo.email}}
+            <i class='fa fa-wrench' aria-hidden='true'></i>
+          </a>
+          <div id='email' class='collapse'>
+            <form class='form-inline' (ngSubmit)='updateUserInfo()' #ngUpdateForm='ngForm'>
+              <label>
+                <label for='email'>Email:</label>
+                <input type='text' [(ngModel)]='accountUpdate.email' name='uEmail' class='form-control' id='uEmail'>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </form>
+          </div>
+        </div>
+
+        <div class='col-sm-12'>
+          <a href='#phone' data-toggle='collapse'> {{accountInfo.phone}}
+            <i class='fa fa-wrench' aria-hidden='true'></i>
+          </a>
+          <div id='phone' class='collapse'>
+            <form class='form-inline' (ngSubmit)='updateUserInfo()' #ngUpdateForm='ngForm'>
+              <label>
+                <label for='phone'>Phone Number:</label>
+                <input type='text' [(ngModel)]='accountUpdate.phone' name='uPhone' class='form-control' id='uPhone'>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </form>
+          </div>
+        </div>
+
+        <div class='col-sm-12'>
+          <a href='#employeeNum' data-toggle='collapse'> {{accountInfo.employee_num}}
+            <i class='fa fa-wrench' aria-hidden='true'></i>
+          </a>
+          <div id='employeeNum' class='collapse'>
+            <form class='form-inline' (ngSubmit)='updateUserInfo()' #ngUpdateForm='ngForm'>
+              <label>
+                <label for='employeeNum'>Employee Number:</label>
+                <input type='text' [(ngModel)]='accountUpdate.employee_num' name='uNum' class='form-control' id='uNum'>
+                <button type='submit' class='btn btn-primary'>Update</button>
+              </label>
+            </form>
+          </div>
+        </div>
+
+        <div class='col-sm-12'>
+          <a href='#password' data-toggle='collapse'> Password
+            <span class='label label-success' *ngIf='showConfirm'>Changed!</span>
+            <span class='label label-danger' *ngIf='showError'>Failed!</span>
+            <i class='fa fa-wrench' aria-hidden='true'></i>
+          </a>
+          <div id='password' class='collapse rows'>
+            <form class='form-inline' (ngSubmit)='changePassword(pass, pass1, pass2)' #ngUpdateForm='ngForm'>
+                <div>
+                  <label>
+                    <label for='pass'>Current Password:</label>
+                    <input type='password' name='pass' [(ngModel)]=pass class='form-control' required>
+                  </label>
+                </div>
+                <div style='padding-left: 20px;'>
+                  <label>
+                    <label for='pass1'>New Password:</label>
+                    <input type='password' name='pass1' [(ngModel)]=pass1 class='form-control' required>
+                  </label>
+                  </div>
+                  <div>
+                  <label>
+                    <label for='pass2'>Retype Password:</label>
+                    <input type='password' name='pass2' [(ngModel)]=pass2 class='form-control' required>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <button type='submit' class='btn btn-primary'>Update</button>
+                  </label>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

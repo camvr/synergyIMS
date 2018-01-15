@@ -1,0 +1,82 @@
+<!--vertical sidebar-->
+<nav *ngIf='getLogin()' class="navbar navbar-default navbar-fixed-left" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <span class="navbar-brand">{{ getCompany() }}</span>
+  </div>
+
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="">Home
+          <div class="navIcon">
+            <i class="fa fa-home"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="products">Inventory
+          <div class="navIcon">
+            <i class="fa fa-archive"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="warehouse">Warehouses
+          <div class="navIcon">
+            <i class="fa fa-truck"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="brand">Brands
+          <div class="navIcon">
+            <i class="fa fa-cc"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="category">Categories
+          <div class="navIcon">
+            <i class="fa fa-tag"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="company">Company Info
+          <div class="navIcon">
+            <i class="fa fa-info-circle"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="accountInfo">Account Info
+          <div class="navIcon">
+            <i class="fa fa-info"></i>
+          </div>
+        </a>
+      </li>
+      <li *ngIf='getPermUser()' [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' routerLink="user">Users
+          <div class="navIcon" id='infoIcon'>
+            <i class="fa fa-user"></i>
+          </div>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a href='javascript:void(0)' (click)="userservice.logout()" id="logoutButton">Logout
+          <div class="navIcon">
+            <i class="fa fa-sign-out"></i>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

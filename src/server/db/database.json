@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "dbuser",
+    "password": "password",
+    "host": "YOUR_DB_IP",
+    "database": "synergyDB",
+    "schema": ""
+  },
+  "staging": {
+    "driver": "pg",
+    "user": "dbuser",
+    "password": "password",
+    "host": "YOUR_DB_IP",
+    "database": "synergyDB_test",
+    "schema": ""
+  }
+}

@@ -1,0 +1,153 @@
+<!-- Page Content -->
+<meta name='viewport' content='width=device-width' />
+<div class='wrapper'>
+  <h1>Warehouses</h1>
+
+  <div class='rows'>
+    <div *ngFor='let warehouse of warehouses' class='Warehouses'>
+      <div class='col-sm-12'>
+        <div class='panel panel-info'>
+          <div class='labels'>
+            <div class='panel-heading'>{{warehouse.warehouse_name}}</div>
+          </div>
+          <div class='panel-body'>
+            <div class='media-left'>
+              <div class='col-sm-4'>
+                <i class='fa fa-home fa-5x' aria-hidden='true'></i>
+              </div>
+            </div>
+
+            <div class='media-body'>
+              <p class='col-sm-12'>
+                <b>Address:</b> {{warehouse.address}}</p>
+              <p class='col-sm-12'>
+                <b>Phone:</b> {{warehouse.phone}}</p>
+
+              <p class='col-sm-12'>{{warehouse.description}}</p>
+            </div>
+            <button class='btn btn-info' (click)='getWarehouse(warehouse.id)' data-toggle='modal' data-target='#editModal'>
+              <small>Edit</small>
+            </button>
+            <button class='btn btn-danger' id='firstDanger' (click)='getWarehouse(warehouse.id)' data-toggle='modal' data-target='#deleteModal'>Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div align='center' class='col-sm-12'>
+      <div class='addButton'>
+        <button type='button' class='btn btn-primary btn-md' data-toggle='modal' data-target='#insertModal'>Add Warehouse</button>
+      </div>
+      <ul *ngIf='pager.pages && pager.pages.length' class='pagination'>
+        <li [ngClass]='{disabled:pager.currentPage === 1}'>
+          <a href='javascript:void(0)' (click)='setPage(1);getWarehouses()'>First</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === 1}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.currentPage - 1);getWarehouses()'>Previous</a>
+        </li>
+        <li *ngFor='let page of pager.pages' [ngClass]='{active:pager.currentPage === page}'>
+          <a href='javascript:void(0)' (click)='setPage(page);getWarehouses();'>{{page}}</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.currentPage + 1);getWarehouses()'>Next</a>
+        </li>
+        <li [ngClass]='{disabled:pager.currentPage === pager.totalPages}'>
+          <a href='javascript:void(0)' (click)='setPage(pager.totalPages);getWarehouses()'>Last</a>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class='modal fade' id='insertModal' role='dialog'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Create New Warehouse</h4>
+          </div>
+          <div class='modal-body'>
+            <input class='form-control' type='text' [(ngModel)]=newWarehouse.warehouse_name name='item_name' placeholder='Warehouse Name'>
+            <br>
+            <textarea class='form-control' rows='4' id='comment' [(ngModel)]=newWarehouse.description name='description' placeholder='Description'> </textarea>
+            <br>
+            <input class='form-control' type='text' [(ngModel)]=newWarehouse.address name='address' placeholder='Address'>
+            <br>
+            <input class='form-control' type='text' [(ngModel)]=newWarehouse.phone name='phone' placeholder='Phone'>
+          </div>
+          <div class='modal-footer'>
+            <button class='btn btn-primary .btn-md' type='button' (click)='createWarehouse(view_warehouse.id)'>Add</button>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class='modal fade' id='editModal' role='dialog'>
+      <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Editing {{view_warehouse.item_name}}</h4>
+          </div>
+          <div class='modal-body'>
+            <label for='updateform'>Editing {{view_warehouse.warehouse_name}}</label>
+            <form (ngSubmit)='editWarehouse(view_warehouse.id)' #newUpdateForm='ngForm'>
+              <label for='warehouseName'>
+                <small>Warehouse Name:</small>
+              </label>
+              <input type='text' class='form-control' [(ngModel)]=view_warehouse.warehouse_name name='warehouse_name' placeholder='Warehouse Name'>
+              <br>
+              <label for='warehouseDescription'>
+                <small>Description:</small>
+              </label>
+              <div>
+                <textarea class='form-control' rows='4' id='comment' [(ngModel)]=view_warehouse.description name='description' placeholder='Description'> </textarea>
+              </div>
+              <br>
+              <label for='warehousePhone'>
+                <small>Phone:</small>
+              </label>
+              <div>
+                <input class='form-control' type='tel' [(ngModel)]=view_warehouse.phone name='phone' placeholder='Phone Number'>
+              </div>
+              <br>
+              <label for='warehouseAddress'>
+                <small>Address:</small>
+              </label>
+              <div>
+                <input class='form-control' type='text' [(ngModel)]=view_warehouse.address name='address' placeholder='Warehouse Address'>
+              </div>
+              <br>
+              <button type='submit' class='btn btn-success'>Update {{view_warehouse.warehouse_name}}</button>
+            </form>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='modal fade' id='deleteModal' role='dialog'>
+      <div class='modal-dialog modal-sm'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Would you like to delete {{view_warehouse.warehouse_name}}</h4>
+          </div>
+          <div class='modal-body'>
+            <p>Are you sure you would like to delete this warehouse?</p>
+          </div>
+          <div class='modal-footer'>
+            <button class='btn btn-danger' type='button' (click)='deleteWarehouse(view_warehouse.id)' data-dismiss='modal'>Delete</button>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

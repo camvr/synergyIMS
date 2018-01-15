@@ -1,0 +1,29 @@
+#account_type {
+    margin: 0px;
+    display: inline;
+}
+
+/* Add red asterisk to required class inputs */
+.required label:after {
+    color: #e32;
+    content: ' *';
+    display:inline;
+}
+
+.isa_error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+.isa_info i, .isa_success i, .isa_warning i, .isa_error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+.isa_info, .isa_success, .isa_warning, .isa_error {
+    margin: 10px 0px;
+    padding:12px;
+}
+
+input.ng-invalid.ng-pristine {
+    border-left:5px solid yellow
+}

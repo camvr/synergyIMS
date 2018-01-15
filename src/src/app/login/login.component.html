@@ -1,0 +1,32 @@
+<div class='container'>
+  <div class='hero-panel'>
+    <h1>Synergy Inventory Management System</h1>
+  </div>
+
+  <div class='panel panel-default'>
+    <div class='panel-heading'>Sign into Account</div>
+    <div class='panel-body'>
+      <form id='login-form' (ngSubmit)='onLogin(email,passwd)' #logForm='ngForm'>
+        <div class='form-group'>
+          <label for='email'>Email address:</label>
+          <input type='email' [(ngModel)]=email name='email' class='form-control' id='email' placeholder='email address' required autofocus>
+        </div>
+        <div class='form-group'>
+          <label for='passwd'>Password:</label>
+          <input type='password' [(ngModel)]=passwd name='passwd' class='form-control' id='passwd' placeholder='password' required>
+        </div>
+
+        <div class='container-full'>
+          <button type='submit' class='btn btn-primary align-left'>Login</button>
+          
+          <p class='align-right'>Don't have a company account set up?
+            <a routerLink='../register' routerLinkActive='active'>Create a company!</a>
+          </p>
+          <div *ngIf='showLoginError' class='isa_warning fa fa-warning'>
+              Sorry, we couldn't find that combination of email and password
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

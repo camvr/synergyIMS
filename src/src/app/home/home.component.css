@@ -1,0 +1,23 @@
+
+h1{
+    margin-left: 15px
+}
+
+.col-md-6{
+    display: block;
+}
+
+.item:hover {
+  background-color: #DDD;
+}
+
+/* While viewport is 767 pixcels wide or smaller */
+@media (max-width: 767px) {
+	.wrapper {
+	    padding:0;
+        margin:0;
+    }
+    h1 {
+        text-align: center;
+    }
+}

@@ -1,0 +1,57 @@
+.panel-info {
+    margin:auto;
+    width: 50%;
+    margin-top: 50px;
+    text-align: center;
+    min-width: 200px;
+}
+
+.panel-heading {
+    text-align: center;
+}
+
+h1 {
+    margin:auto;
+    width: 70%;
+    text-align: center;
+    margin-top: 10px;
+    min-width: 222px;
+}
+
+a {
+    font-size: 150%;
+    color: black;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: black;
+    text-decoration: none;
+}
+
+.col-sm-12 {
+    padding-top: 10px;
+}
+
+.form-inline {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+p {
+    font-size: 150%;
+    color: black;
+    margin-bottom: 0;
+}
+
+.fa-wrench {
+    font-size: 80%;
+}
+
+.collapse{
+    text-align:center;
+}
+.label{
+    display: inline-block;
+}

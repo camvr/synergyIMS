@@ -1,0 +1,42 @@
+<div class='wrapper'>
+    <h1>Welcome!</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div style="display: block;">
+                <canvas baseChart width="400" height="200" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                    [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6 pre-scrollable" style="margin-bottom: 10px">
+            <h4>Products</h4>
+            <table class="table table-responsive table-condensed">
+              <tr>
+                  <th>Item Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+              </tr>
+              <tr *ngFor="let d of products" (click)='viewProduct(d.item_name)' data-toggle='modal' data-target='#deleteModal' class='item'>
+                  <td>{{d.item_name}}</td>
+                  <td>{{d.price}}</td>
+                  <td>{{d.quantity}}</td>
+              </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 align="center">Total Inventory Worth Vs. Time</h3>
+            <canvas baseChart height="50" width="100" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h4 align="center">Total Worth of Each Warehouse</h4>
+            <canvas baseChart height="200" width="250" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+        </div>
+        <!-- Other ideas are Total price of goods in a warehouse or under a brand -->
+    </div>
+</div>
